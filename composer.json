@@ -1,0 +1,16 @@
+{
+    "name": "alicext/remote-login-for-laravel",
+    "description": "shadowdata 远程登录",
+    "authors": [
+        {
+            "name": "AliceXT",
+            "email": "634771820@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+	    "psr-4": {
+	        "AliceXT\\Remotelogin\\": "src/"
+	    }
+	}
+}
