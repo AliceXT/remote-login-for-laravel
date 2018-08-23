@@ -11,7 +11,7 @@
 `AliceXT\Remotelogin\RemoteloginServiceProvider::class`
 
 3. 在/config/app.php的aliases数组增加以下内容
-'Remotelogin' => AliceXT\Remotelogin\Facades\Remotelogin::class 
+> 'Remotelogin' => AliceXT\Remotelogin\Facades\Remotelogin::class 
 
 4.刷新autoload
 composer dump-autoload
