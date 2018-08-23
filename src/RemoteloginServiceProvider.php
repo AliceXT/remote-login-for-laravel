@@ -21,7 +21,7 @@ class RemoteloginServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/views', 'Remotelogin'); // 视图目录指定
         $this->publishes([
-            __DIR__.'/views' => base_path('resources/views/vendor/remotelogin'),  // 发布视图目录到resources 下
+            // __DIR__.'/views' => base_path('resources/views/vendor/remotelogin'),  // 发布视图目录到resources 下
             __DIR__.'/config/remotelogin.php' => config_path('remotelogin.php'), // 发布配置文件到 laravel 的config 下
         ]);
     }
@@ -34,7 +34,7 @@ class RemoteloginServiceProvider extends ServiceProvider
     {
          // 单例绑定服务
         $this->app->singleton('remotelogin', function ($app) {
-            return new Remotelogin($app['session'], $app['config']);
+            return new Remotelogin($app['config']);
         });
     }
     /**
