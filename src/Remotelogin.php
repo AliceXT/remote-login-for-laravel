@@ -36,6 +36,39 @@ class remotelogin
         return $msg.' <strong>from your custom develop package!</strong>>';
     }
 
+    public function changePass($oldpass, $newpass)
+    {
+        $changePass = $this->config->get('remotelogin.change_password_path');
+        $url = $this->remote_url . $changePass;
+        $params['oldpass'] = $oldpass;
+        $params['newpass'] = $newpass;
+
+        $result = self::curl($url, $params, true);
+
+        if(false === $result){
+            return false;
+        }
+        $json = json_decode($result);
+
+        // echo $result;
+        if($json->status_code === 200){
+            return true;
+        }else{
+            // $this->errMsg = 'REMOTE API ERROR!';
+            $this->errMsg = $json->message;
+            \Log::error('Remotelogin:'.$json->message);
+            return false;
+        }
+        return fasle;
+    }
+
+
+    /**
+     * remote login
+     * @param  string $user_name user_name for account
+     * @param  string $password  password string in plaint text
+     * @return mixed|false            remote return or error for false
+     */
     public function auth($user_name, $password)
     {
         $auth = $this->config->get('remotelogin.auth_path');
