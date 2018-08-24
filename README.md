@@ -20,10 +20,13 @@
 `php artisan vendor:publish --provider="AliceXT\Remotelogin\RemoteloginServiceProvider" `
 
 ## 使用方法
+### 更改配置文件
+修改/config/remotelogin.php的配置
+
 ### 登录auth
-引用
+#### 引用
 `use Remotelogin;`
-调用登录
+#### 调用登录
 `$ret = Remotelogin::auth($account, $password);`
 $ret==false时，使用以下语句获得报错信息
 `Remotelogin::getError();`
