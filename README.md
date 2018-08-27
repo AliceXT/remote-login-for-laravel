@@ -30,7 +30,7 @@
 `$ret = Remotelogin::auth($account, $password);`
 $ret==false时，使用以下语句获得报错信息
 `Remotelogin::getError();`
-否则$ret为登录成功后返回的信息
+否则$ret为登录成功后返回的信息。其中`$ret->token`返回的是接口的token，应该在users表记录该值以便在使用其他接口时调用
 
 ## 注意事项
 由于国内镜像没有该项目的镜像，如果想要使用composer安装项目，建议使用原始镜像，运行以下语句即可使用原始镜像

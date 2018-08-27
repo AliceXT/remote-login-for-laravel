@@ -36,14 +36,21 @@ class remotelogin
         return $msg.' <strong>from your custom develop package!</strong>>';
     }
 
-    public function changePass($oldpass, $newpass)
+    public function changePass($oldpass, $newpass, $token)
     {
+        if(empty($token)){
+            $this->errMsg = 'token不能为空';
+            return false;
+        }
         $changePass = $this->config->get('remotelogin.change_password_path');
         $url = $this->remote_url . $changePass;
         $params['oldpass'] = $oldpass;
         $params['newpass'] = $newpass;
+        $headers = [
+            'Authorization:'.$token,
+        ];
 
-        $result = self::curl($url, $params, true);
+        $result = self::curl($url, $params, true, $headers);
 
         if(false === $result){
             return false;
@@ -56,7 +63,7 @@ class remotelogin
         }else{
             // $this->errMsg = 'REMOTE API ERROR!';
             $this->errMsg = $json->message;
-            \Log::error('Remotelogin:'.$json->message);
+            \Log::error('Remotelogin ChangePass:'.$json->message);
             return false;
         }
         return fasle;
@@ -93,7 +100,7 @@ class remotelogin
         }else{
             // $this->errMsg = 'REMOTE API ERROR!';
             $this->errMsg = $json->message;
-            \Log::error('Remotelogin:'.$json->message);
+            \Log::error('Remotelogin Auth:'.$json->message);
             return false;
         }
         return fasle;
@@ -112,7 +119,7 @@ class remotelogin
      * @param int $https https协议
      * @return bool|mixed
      */
-    public function curl($url, $params = false, $ispost = 0, $https = 0)
+    public function curl($url, $params = false, $ispost = 0, $headers = false, $https = 0)
     {
         $httpInfo = array();
         $ch = curl_init();
@@ -125,6 +132,10 @@ class remotelogin
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); // 对认证证书来源的检查
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); // 从证书中检查SSL加密算法是否存在
         }
+        if($headers){
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        }
+
         if ($ispost) {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
